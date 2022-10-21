@@ -1,3 +1,10 @@
+"""
+Этот бот написан @kissordead
+Version 1.1
+
+Бот создан для упрощения поиска расписания
+"""
+
 import telebot
 from telebot import types
 import datetime
@@ -72,6 +79,19 @@ def get_schedule(message, day=0):
     bot.send_message(message.chat.id, lessons)
 
 
+def print_even_week(message):
+    """
+    Функция отправляющая четность недели
+
+    :param message: отправляется принятое сообщение
+    :return: четность в виде ответа сообщением
+    """
+    if define_week():
+        bot.send_message(message.chat.id, 'Четная неделя')
+    else:
+        bot.send_message(message.chat.id, 'Нечетная неделя')
+
+
 schedule_even = {'Понедельник': ['11:40 Рекламист 333 к5', '13:45 Рекламист 333 к5'],
                  'Вторник': ['8:00 Коновалов 364 к5', '9:50 Коновалов 407 к1'],
                  'Среда': ['9:50 Английский к5'],
@@ -98,20 +118,39 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
+    """
+    Функция читающая бота
+
+    Args:
+        message: принимает сообщение
+
+    Attributes:
+        markup_menu): набор кнопок в главном меню
+        markup: набор кнопок с днями недели, включая выход в меню
+        btn1,2,3: кнопки меню
+        now_date (date): актуальная дата
+        number_day (int): принимает значение нужного дня
+    """
     markup_menu = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = types.KeyboardButton('Сегодня 📃')
-    btn2 = types.KeyboardButton('Другой день 🎓')
-    markup_menu.add(btn1, btn2)
+    btn2 = types.KeyboardButton('Завтра')
+    btn3 = types.KeyboardButton('Другой день 🎓')
+    markup_menu.add(btn1, btn2, btn3)
     if message.text == 'Сегодня 📃':
         now_date = datetime.date.today()    # Получаю текущую дату
         print_date = str(now_date)      # Преобразую дату в str для отправки сообщения
         bot.send_message(message.chat.id, 'Твое расписание на {date}'.format(date=print_date))
-        if define_week():
-            bot.send_message(message.chat.id, 'Четная неделя')
-        else:
-            bot.send_message(message.chat.id, 'Нечетная неделя')
+        print_even_week(message)
         number_day = datetime.datetime.today().weekday() + 1
         get_schedule(message, day=number_day)
+    elif message.text == 'Завтра':
+        number_day = datetime.datetime.today().weekday() + 2
+        if number_day == 7:
+            bot.send_message(message.chat.id, 'В воскресенье отдыхаем, расслабься)', reply_markup=markup_menu)
+        elif number_day > 7:
+            number_day %= 7
+            print_even_week(message)
+        get_schedule(message, number_day)
     elif message.text == 'Другой день 🎓':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         button1 = types.KeyboardButton('Понедельник')
