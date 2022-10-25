@@ -43,7 +43,7 @@ def define_week():
         return False
 
 
-def get_schedule(message, day=0, even=False, not_even=False):
+def get_schedule(message, markup, day=0, even=False, not_even=False):
     """
     Функция печатающая сообщение в боте
 
@@ -72,13 +72,19 @@ def get_schedule(message, day=0, even=False, not_even=False):
     elif day == 6:
         today = 'Суббота'
 
-    if define_week() or even:
+    if even:
         for i_item in range(len(schedule_even.get(today))):
             lessons += schedule_even[today][i_item] + '\n'
-    elif not define_week() or not_even:
+    elif not_even:
         for i_item in range(len(schedule_not_even.get(today))):
             lessons += schedule_not_even[today][i_item] + '\n'
-    bot.send_message(message.chat.id, lessons)
+    elif define_week():
+        for i_item in range(len(schedule_even.get(today))):
+            lessons += schedule_even[today][i_item] + '\n'
+    elif not define_week():
+        for i_item in range(len(schedule_not_even.get(today))):
+            lessons += schedule_not_even[today][i_item] + '\n'
+    bot.send_message(message.chat.id, lessons, reply_markup=markup)
 
 
 def print_even_week(message):
@@ -109,13 +115,16 @@ schedule_not_even = {'Понедельник': ['11:40 Рекламист 333к'
                  'Пятница': ['Нет пар'],
                  'Суббота': ['3 пары Моны к5']}
 
+message_list = list()
+
 
 @bot.message_handler(commands=['start'])
 def start(message):
     markup_menu = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = types.KeyboardButton('Сегодня 📃')
-    btn2 = types.KeyboardButton('Другой день 🎓')
-    markup_menu.add(btn1, btn2)
+    btn2 = types.KeyboardButton('Завтра')
+    btn3 = types.KeyboardButton('Другой день 🎓')
+    markup_menu.add(btn1, btn2, btn3)
     bot.send_message(message.chat.id, 'Привет, я помогу тебе с расписанием =)', reply_markup=markup_menu)
 
 
@@ -139,6 +148,8 @@ def get_text_messages(message):
     btn2 = types.KeyboardButton('Завтра')
     btn3 = types.KeyboardButton('Другой день 🎓')
     markup_menu.add(btn1, btn2, btn3)
+    message_list.append(message.text)
+    print(message_list)
 
     if message.text == 'Сегодня 📃':
         now_date = datetime.date.today()    # Получаю текущую дату
@@ -146,7 +157,7 @@ def get_text_messages(message):
         bot.send_message(message.chat.id, 'Твое расписание на {date}'.format(date=print_date))
         print_even_week(message)
         number_day = datetime.datetime.today().weekday() + 1
-        get_schedule(message, day=number_day)
+        get_schedule(message, markup=markup_menu, day=number_day)
 
     elif message.text == 'Завтра':
         """
@@ -166,11 +177,11 @@ def get_text_messages(message):
         elif number_day > 7:
             number_day %= 7
             if define_week():   # Возвращает True (Нечетная неделя)
-                get_schedule(message, number_day, even=True)
+                get_schedule(message, markup=markup_menu, day=number_day, even=True)
             else:
-                get_schedule(message, number_day, not_even=True)
+                get_schedule(message, markup=markup_menu, day=number_day, not_even=True)
         else:   # Если завтрашний день в пределах до субботы, выводим завтрашнее расписание
-            get_schedule(message, number_day)
+            get_schedule(message, markup=markup_menu, day=number_day)
 
     elif message.text == 'Другой день 🎓':
         print_even_week(message)    # Выводим какая сейчас неделя, чтобы было проще ориентироваться в выборе
@@ -209,52 +220,52 @@ def get_text_messages(message):
         bot.send_message(message.chat.id, 'Вы вернулись в меню', reply_markup=markup_menu)
 
     elif message.text == 'Понедельник':
-        if message.chat.id - 1 == 'Четная':
-            get_schedule(message, even=True)
-        elif message.chat.id - 1 == 'Нечетная':
-            get_schedule(message, not_even=True)
+        if message_list[-2] == 'Четная':
+            get_schedule(message, markup=markup_menu, even=True)
+        elif message_list[-2] == 'Нечетная':
+            get_schedule(message, markup=markup_menu, not_even=True)
         else:
-            get_schedule(message)
+            get_schedule(message, markup=markup_menu)
 
     elif message.text == 'Вторник':
-        if message.chat.id - 1 == 'Четная':
-            get_schedule(message, even=True)
-        elif message.chat.id - 1 == 'Нечетная':
-            get_schedule(message, not_even=True)
+        if message_list[-2] == 'Четная':
+            get_schedule(message, markup=markup_menu, even=True)
+        elif message_list[-2] == 'Нечетная':
+            get_schedule(message, markup=markup_menu, not_even=True)
         else:
-            get_schedule(message)
+            get_schedule(message, markup=markup_menu)
 
     elif message.text == 'Среда':
-        if message.chat.id - 1 == 'Четная':
-            get_schedule(message, even=True)
-        elif message.chat.id - 1 == 'Нечетная':
-            get_schedule(message, not_even=True)
+        if message_list[-2] == 'Четная':
+            get_schedule(message, markup=markup_menu, even=True)
+        elif message_list[-2] == 'Нечетная':
+            get_schedule(message, markup=markup_menu, not_even=True)
         else:
-            get_schedule(message)
+            get_schedule(message, markup=markup_menu)
 
     elif message.text == 'Четверг':
-        if message.chat.id - 1 == 'Четная':
-            get_schedule(message, even=True)
-        elif message.chat.id - 1 == 'Нечетная':
-            get_schedule(message, not_even=True)
+        if message_list[-2] == 'Четная':
+            get_schedule(message, markup=markup_menu, even=True)
+        elif message_list[-2] == 'Нечетная':
+            get_schedule(message, markup=markup_menu, not_even=True)
         else:
-            get_schedule(message)
+            get_schedule(message, markup=markup_menu)
 
     elif message.text == 'Пятница':
-        if message.chat.id - 1 == 'Четная':
-            get_schedule(message, even=True)
-        elif message.chat.id - 1 == 'Нечетная':
-            get_schedule(message, not_even=True)
+        if message_list[-2] == 'Четная':
+            get_schedule(message, markup=markup_menu, even=True)
+        elif message_list[-2] == 'Нечетная':
+            get_schedule(message, markup=markup_menu, not_even=True)
         else:
-            get_schedule(message)
+            get_schedule(message, markup=markup_menu)
 
     elif message.text == 'Суббота':
-        if message.chat.id - 1 == 'Четная':
-            get_schedule(message, even=True)
-        elif message.chat.id - 1 == 'Нечетная':
-            get_schedule(message, not_even=True)
+        if message_list[-2] == 'Четная':
+            get_schedule(message, markup=markup_menu, even=True)
+        elif message_list[-2] == 'Нечетная':
+            get_schedule(message, markup=markup_menu, not_even=True)
         else:
-            get_schedule(message)
+            get_schedule(message, markup=markup_menu)
 
     else:
         bot.send_message(message.chat.id, 'Не знаю что делать =(')
