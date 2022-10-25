@@ -269,7 +269,6 @@ def start(message):
 def get_text_messages(message):
     """    Функция принимающая сообщение   """
     read_action(message, human=human)
-    print(human.request_week)
 
 
 bot.polling(none_stop=True, interval=0)
