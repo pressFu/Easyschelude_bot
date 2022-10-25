@@ -58,7 +58,6 @@ def get_schedule(message, markup, day=0, even=False, not_even=False):
         lessons: сюда записываются предметы
         today: переменная хранит в себе значение дня
 
-    :param battuns:
     :param message: передается чат
     :param day: передается день недели
     """
@@ -256,8 +255,7 @@ schedule_not_even = {'Понедельник': ['11:40 Рекламист 333к'
                      'Пятница': ['Нет пар'],
                      'Суббота': ['3 пары Моны к5']}
 
-
-week = list()
+gi
 human = Human()
 
 
