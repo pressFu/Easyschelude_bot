@@ -37,17 +37,17 @@ def define_week():
     :return: True or False
     """
     now_date = datetime.datetime.now()
-    start_date = datetime.datetime(2022, 9, 1)
+    start_date = datetime.datetime(2022, 8, 29)
     quantity_day = now_date - start_date
     days = quantity_day.days
+    week = 7
     counter_week = 0
-    for i_day in range(quantity_day.days):
-        days -= 7
-        counter_week += 1
+    while week < days:
+        days -= week
     if counter_week % 2 == 0:
-        return True
-    else:
         return False
+    else:
+        return True
 
 
 def get_schedule(message, markup, day=0, even=False, not_even=False):
@@ -241,19 +241,19 @@ def read_action(message, human):
         bot.send_message(message.chat.id, 'Не знаю что делать =(')
 
 
-schedule_even = {'Понедельник': ['11:40 Рекламист 333 к5', '13:45 Рекламист 333 к5'],
+schedule_even = {'Понедельник': ['Нет пар'],
                  'Вторник': ['8:00 Коновалов 364 к5', '9:50 Коновалов 407 к1'],
                  'Среда': ['9:50 Английский к5'],
                  'Четверг': ['8:00 Аникина 415 к1', '9:50 Карев 422 к1', '11:40 Гилева 234 к5'],
                  'Пятница': ['11:40 Карев 228 к5', '13:45 Английский к5', '15:35 Аникина 452 к5'],
-                 'Суббота': ['3 пары Моны к5']}
+                 'Суббота': ['11:40 Кулаковский 452 к5']}
 
 schedule_not_even = {'Понедельник': ['11:40 Рекламист 333к', '13:45 Рекламист 333к'],
                      'Вторник': ['8:00 Аникина 219 к5', '9:50 Коновалов 364 к5'],
                      'Среда': ['9:50 Английский к5'],
                      'Четверг': ['8:00 Гилева 422 к1', '9:50 Карев 422 к1', '11:40 Гилева 452 к5'],
                      'Пятница': ['Нет пар'],
-                     'Суббота': ['3 пары Моны к5']}
+                     'Суббота': ['11:40 Кулаковский 452 к5']}
 
 
 human = Human()
