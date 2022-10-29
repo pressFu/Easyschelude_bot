@@ -9,7 +9,7 @@ Version 1.3
 import telebot
 from telebot import types
 import datetime
-
+import time
 
 bot = telebot.TeleBot('5781286264:AAGUHHvxzvBzefuwafVmS0XkuAtCzSWPTYs')
 
@@ -271,4 +271,10 @@ def get_text_messages(message):
     read_action(message, human=human)
 
 
-bot.polling(none_stop=True, interval=0)
+if __name__ == '__main__':
+    while True:
+        try:
+            bot.polling(none_stop=True)
+        except Exception as e:
+            time.sleep(3)
+            print('Упал, блин')
