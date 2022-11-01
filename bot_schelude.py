@@ -189,52 +189,53 @@ def read_action(message, human):
         bot.send_message(message.chat.id, 'Какой день на этой неделе?', reply_markup=markup_day())
 
     elif message.text == 'Меню':
+        human.request_week.pop(message.chat.id)
         bot.send_message(message.chat.id, 'Вы вернулись в меню', reply_markup=menu_marcup())
 
     elif message.text == 'Понедельник':
         if human.request_week[human.id_human] == 'Четная':
-            get_schedule(message=message, markup=menu_marcup(), even=True)
+            get_schedule(message=message, markup=markup_day(), even=True)
         elif human.request_week[human.id_human] == 'Нечетная':
-            get_schedule(message=message, markup=menu_marcup(), not_even=True)
+            get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
 
     elif message.text == 'Вторник':
         if human.request_week[human.id_human] == 'Четная':
-            get_schedule(message=message, markup=menu_marcup(), even=True)
+            get_schedule(message=message, markup=markup_day(), even=True)
         elif human.request_week[human.id_human] == 'Нечетная':
-            get_schedule(message=message, markup=menu_marcup(), not_even=True)
+            get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
 
     elif message.text == 'Среда':
         if human.request_week[human.id_human] == 'Четная':
-            get_schedule(message=message, markup=menu_marcup(), even=True)
+            get_schedule(message=message, markup=markup_day(), even=True)
         elif human.request_week[human.id_human] == 'Нечетная':
-            get_schedule(message=message, markup=menu_marcup(), not_even=True)
+            get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
     elif message.text == 'Четверг':
         if human.request_week[human.id_human] == 'Четная':
-            get_schedule(message=message, markup=menu_marcup(), even=True)
+            get_schedule(message=message, markup=markup_day(), even=True)
         elif human.request_week[human.id_human] == 'Нечетная':
-            get_schedule(message=message, markup=menu_marcup(), not_even=True)
+            get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
 
     elif message.text == 'Пятница':
         if human.request_week[human.id_human] == 'Четная':
-            get_schedule(message=message, markup=menu_marcup(), even=True)
+            get_schedule(message=message, markup=markup_day(), even=True)
         elif human.request_week[human.id_human] == 'Нечетная':
-            get_schedule(message=message, markup=menu_marcup(), not_even=True)
+            get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
 
     elif message.text == 'Суббота':
         if human.request_week[human.id_human] == 'Четная':
-            get_schedule(message=message, markup=menu_marcup(), even=True)
+            get_schedule(message=message, markup=markup_day(), even=True)
         elif human.request_week[human.id_human] == 'Нечетная':
-            get_schedule(message=message, markup=menu_marcup(), not_even=True)
+            get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
     else:
@@ -257,24 +258,26 @@ schedule_not_even = {'Понедельник': ['11:40 Рекламист 333к'
 
 
 human = Human()
+human_ID = 100_000
 
 
-@bot.message_handler(commands=['start'])
-def start(message):
-    human.id_human = message.chat.id
-    bot.send_message(message.chat.id, 'Привет, я помогу тебе с расписанием!', reply_markup=menu_marcup())
+try:
+    @bot.message_handler(commands=['start'])
+    def start(message):
+        # human.id_human = message.chat.id
+        bot.send_message(message.chat.id, 'Привет, я помогу тебе с расписанием!', reply_markup=menu_marcup())
 
 
-@bot.message_handler(content_types=['text'])
-def get_text_messages(message):
-    """    Функция принимающая сообщение   """
-    read_action(message, human=human)
+    @bot.message_handler(content_types=['text'])
+    def get_text_messages(message):
+        """    Функция принимающая сообщение   """
+        human.id_human = message.chat.id
+        read_action(message, human=human)
+        print(human.request_week)
 
 
-if __name__ == '__main__':
-    while True:
-        try:
-            bot.polling(none_stop=True)
-        except Exception as e:
-            time.sleep(3)
-            print('Упал, блин')
+    bot.polling(none_stop=True)
+
+
+except Exception:
+    bot.polling(none_stop=True)
