@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3594ac6f-6170-445b-a602-4c4c6b58a914" name="Changes" comment="add button 'Back' and buttons even and not_even" />
+    <list default="true" id="3594ac6f-6170-445b-a602-4c4c6b58a914" name="Changes" comment="add button 'Back' and buttons even and not_even">
+      <change beforePath="$PROJECT_DIR$/bot_schelude.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot_schelude.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

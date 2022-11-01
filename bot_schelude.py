@@ -212,7 +212,7 @@ def read_action(message, human):
     elif message.text == 'Среда':
         if human.request_week.get(human.id_human) == 'Четная':
             get_schedule(message=message, markup=markup_day(), even=True)
-        elif human.request_week.get(human.id_human); == 'Нечетная':
+        elif human.request_week.get(human.id_human) == 'Нечетная':
             get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
