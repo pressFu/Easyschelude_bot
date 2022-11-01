@@ -274,7 +274,6 @@ try:
         """    Функция принимающая сообщение   """
         human.id_human = message.chat.id
         read_action(message, human=human)
-        print(human.request_week)
 
 
     bot.polling(none_stop=True)
