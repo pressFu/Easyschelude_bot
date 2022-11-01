@@ -194,48 +194,48 @@ def read_action(message, human):
         bot.send_message(message.chat.id, 'Вы вернулись в меню', reply_markup=menu_marcup())
 
     elif message.text == 'Понедельник':
-        if human.request_week[human.id_human] == 'Четная':
+        if human.request_week.get(human.id_human) == 'Четная':
             get_schedule(message=message, markup=markup_day(), even=True)
-        elif human.request_week[human.id_human] == 'Нечетная':
+        elif human.request_week.get(human.id_human) == 'Нечетная':
             get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
 
     elif message.text == 'Вторник':
-        if human.request_week[human.id_human] == 'Четная':
+        if human.request_week.get(human.id_human) == 'Четная':
             get_schedule(message=message, markup=markup_day(), even=True)
-        elif human.request_week[human.id_human] == 'Нечетная':
+        elif human.request_week.get(human.id_human) == 'Нечетная':
             get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
 
     elif message.text == 'Среда':
-        if human.request_week[human.id_human] == 'Четная':
+        if human.request_week.get(human.id_human) == 'Четная':
             get_schedule(message=message, markup=markup_day(), even=True)
-        elif human.request_week[human.id_human] == 'Нечетная':
+        elif human.request_week.get(human.id_human); == 'Нечетная':
             get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
     elif message.text == 'Четверг':
-        if human.request_week[human.id_human] == 'Четная':
+        if human.request_week.get(human.id_human) == 'Четная':
             get_schedule(message=message, markup=markup_day(), even=True)
-        elif human.request_week[human.id_human] == 'Нечетная':
+        elif human.request_week.get(human.id_human) == 'Нечетная':
             get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
 
     elif message.text == 'Пятница':
-        if human.request_week[human.id_human] == 'Четная':
+        if human.request_week.get(human.id_human) == 'Четная':
             get_schedule(message=message, markup=markup_day(), even=True)
-        elif human.request_week[human.id_human] == 'Нечетная':
+        elif human.request_week.get(human.id_human) == 'Нечетная':
             get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
 
     elif message.text == 'Суббота':
-        if human.request_week[human.id_human] == 'Четная':
+        if human.request_week.get(human.id_human) == 'Четная':
             get_schedule(message=message, markup=markup_day(), even=True)
-        elif human.request_week[human.id_human] == 'Нечетная':
+        elif human.request_week.get(human.id_human) == 'Нечетная':
             get_schedule(message=message, markup=markup_day(), not_even=True)
         else:
             get_schedule(message, markup=menu_marcup())
