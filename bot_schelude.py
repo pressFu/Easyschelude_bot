@@ -189,7 +189,8 @@ def read_action(message, human):
         bot.send_message(message.chat.id, 'Какой день на этой неделе?', reply_markup=markup_day())
 
     elif message.text == 'Меню':
-        human.request_week.pop(message.chat.id)
+        if human.request_week.get(message.chat.id):
+            human.request_week.pop(message.chat.id)
         bot.send_message(message.chat.id, 'Вы вернулись в меню', reply_markup=menu_marcup())
 
     elif message.text == 'Понедельник':
